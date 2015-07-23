@@ -271,6 +271,8 @@ class AES_3GPP(CryMo):
         length = len(data)
         # args sanity check
         if not isinstance(key, str) or len(key) != 16:
+            print isinstance(key, str)
+            print len(key)
             raise(CMException)
         if not isinstance(count, (int, long)) or count < 0 or count >= max32:
             raise(CMException)
