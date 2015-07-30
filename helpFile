@@ -1,12 +1,12 @@
-***************ES Ciphering / Deciphering Cheatsheet**************************
+**************AES Ciphering / Deciphering Cheatsheet**************************
 *   Batch Process: -b [batch file name]                                      *
 *   Single Process                                                           *
 *   Integrity Protection:                                                    *
-*   -ip [key] [count] [direction] [bearer] [data]                            *                                                             *\n' \
+*   ip [key] [count] [direction] [bearer] [data]                             *
 *   Ciphering (from cmd):                                                    *
-*   -ci [mode] [key] [count] [direction] [bearer] [data]                     *
+*   ci [key] [count] [direction] [bearer] [data] [mode] [output]             *
 *   Deciphering (from cmd):                                                  *
-*   -de [mode] [key] [count] [direction] [bearer] [data]                     *
+*   de [key] [count] [direction] [bearer] [data]  [mode] [output]            *
 *   Mode:                                                                    *
 *   |   Mode  | Data from | Output to |                                      *
 *   |   -ff   | file      | file      |                                      *
