@@ -1,0 +1,6 @@
+ID,Task,Key,Count,Direction,Bearer,Data,Data Source
+1,Integrity Check,5ead1f52e92ced3add9486d1b066c693,0x00,uplink,0,10101010,s
+2,Cipher,941c08ca34df130ee7644ef803b90eda,0x00,uplink,0,10101010c76c5132,s
+3,Decipher,941c08ca34df130ee7644ef803b90eda,0x00,uplink,0,c3,f
+4,Cipher,a24fd61d0b627b91f7451be11df4d40e,0x1C3,downlink,0,c4,f
+5,Decipher,a24fd61d0b627b91f7451be11df4d40e,0x1C3,downlink,0,ee1cae4f34904f46515bc173562021c64afe08fc,s
