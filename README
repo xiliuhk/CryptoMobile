@@ -1,10 +1,12 @@
 #LTE AES TOOL
 
 
-## GUI (Windows only)
+## GUI (exe available only)
 
 * Batch Process: dist/cryp-bat-GUI.exe
 * Single Entry:  dist/cryp-GUI.exe
+* For Mac/Unix applications, you could build with source code and pyInstaller: 
+  pyinstalller -F --noconsole cryptGUI.py
 
 ## Script
 
