@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# gotoclass.py
-
 import wx
 import os
 from wrapper import Cipher
