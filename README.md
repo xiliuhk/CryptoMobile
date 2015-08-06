@@ -12,6 +12,7 @@
 ### Windows Executable
 * Batch Process: dist/cryp-bat-GUI.exe
 * Single Entry:  dist/cryp-GUI.exe
+
 ### Mac and Unix
 You could build with pyinstaller on corresponding platform: 
 pyinstaller -F --noconsole crypt-GUI.py
