@@ -6,7 +6,7 @@
 import wx
 import os
 from wrapper import Cipher
-import sys
+import webbrowser
 
 class AES_GUI(wx.Frame):
 
@@ -19,11 +19,14 @@ class AES_GUI(wx.Frame):
         self.Centre()
         self.Show()
 
+    def onExit(self, event):
+        self.Close()
+
     def InitUI(self):
 
         panel = wx.Panel(self)
-        vbox = wx.BoxSizer(wx.VERTICAL)
 
+        vbox = wx.BoxSizer(wx.VERTICAL)
         hbox0 = wx.BoxSizer(wx.HORIZONTAL)
         taskList = ['IP Check', 'SRB Cipher', 'SRB Decipher', 'IP + SRB Cipher', 'SRB Decipher + IP',
                     'DRB Cipher', 'DRB Decipher']
@@ -102,8 +105,80 @@ class AES_GUI(wx.Frame):
         clear.Bind(wx.EVT_BUTTON, self.onClear)
         hbox4_btn.Add(clear,flag=wx.ALIGN_RIGHT|wx.LEFT, border=180)
         vbox.Add(hbox4_btn, proportion=1,flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=20)
-
         panel.SetSizer(vbox)
+
+        menuBar = wx.MenuBar()
+        fileMenu = wx.Menu()
+        loadMenuItem = fileMenu.Append(wx.NewId(), "Load Config",
+                                       "Load Config from file")
+        self.Bind(wx.EVT_MENU, self.onLoad, loadMenuItem)
+        saveMenuItem = fileMenu.Append(wx.NewId(), "Save Config",
+                                       "Save Config to file")
+        self.Bind(wx.EVT_MENU, self.onSave, saveMenuItem)
+        exitMenuItem = fileMenu.Append(wx.NewId(), "Exit",
+                                       "Exit the application")
+        self.Bind(wx.EVT_MENU, self.onExit, exitMenuItem)
+        menuBar.Append(fileMenu, "&File")
+        helpMenu = wx.Menu()
+        wikiMenuItem = helpMenu.Append(wx.NewId(), "User Guideline", "Find User Guideline")
+        menuBar.Append(helpMenu, "&Help")
+        self.Bind(wx.EVT_MENU, self.onHelp, wikiMenuItem)
+        self.SetMenuBar(menuBar)
+
+    def onSave(self, event):
+        wildcard = "All files (*.*)|*.*"
+        config0List = ['COUNT', 'BEARER', 'IP_KEY', 'SRB_KEY', 'DRB_KEY']
+        config1List = [self.cnt, self.bearer, self.key, self.key_SRB, self.key_DRB]
+        dlg = wx.FileDialog(
+            self, message="Save file as ...",
+            defaultDir=os.curdir,
+            defaultFile="", wildcard= wildcard, style=wx.SAVE
+            )
+        if dlg.ShowModal() == wx.ID_OK:
+            self.filename=dlg.GetFilename()
+            self.dirname=dlg.GetDirectory()
+            filehandle=open(os.path.join(self.dirname, self.filename),'wb')
+            for config0, config1 in zip(config0List, config1List):
+                filehandle.write(config0 + ':' + config1.GetValue())
+            filehandle.close()
+        dlg.Destroy()
+
+    def onHelp(self, event):
+        webbrowser.open('https://twiki.int.net.nokia.com/bin/view/Main/LteKddiEnbLemaBuild', new = 2, autoraise = True)
+    def onLoad(self, event):
+        wildcard = "All files (*.*)|*.*"
+        dlg = wx.FileDialog(
+            self, message="Choose a file",
+            defaultDir= os.getcwd(),
+            defaultFile="",
+            wildcard=wildcard,
+            style=wx.OPEN | wx.CHANGE_DIR
+            )
+
+        if dlg.ShowModal() == wx.ID_OK:
+            try:
+                file = open(dlg.GetPath(), 'r')
+                configMap = {}
+
+                for line in file:
+                    config = line.split(':')
+                    configMap[config[0].strip(' ')] = config[1].strip(' ')
+                file.close()
+
+                if configMap.has_key('COUNT'):
+                    self.cnt.SetValue(configMap.get('COUNT'))
+                if configMap.has_key('BEARER'):
+                    self.bearer.SetValue(configMap.get('BEARER'))
+                if configMap.has_key('IP_KEY'):
+                    self.key.SetValue(configMap.get('IP_KEY'))
+                if configMap.has_key('SRB_KEY'):
+                    self.key_SRB.SetValue(configMap.get('SRB_KEY'))
+                if configMap.has_key('DRB_KEY'):
+                    self.key_DRB.SetValue(configMap.get('DRB_KEY'))
+            except:
+                wx.MessageBox("Invalid config!", "Error")
+            return
+        dlg.Destroy()
 
     def onProcess(self, event):
         try:
@@ -213,10 +288,6 @@ class AES_GUI(wx.Frame):
         self.data.SetValue('')
 
     def onOpenFile(self, event):
-        """
-        Create and show the Open FileDialog
-        """
-
         wildcard = "All files (*.*)|*.*"
         dlg = wx.FileDialog(
             self, message="Choose a file",
