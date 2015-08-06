@@ -15,7 +15,9 @@
 
 ### Mac and Unix
 You could build with pyinstaller on corresponding platform: 
+
 pyinstaller -F --noconsole crypt-GUI.py
+
 pyinstaller -F --noconsole crypt-bat-GUI.py
 
 
